@@ -9,42 +9,47 @@
 import UIKit
 import WebKit
 
-extension String {
-    
-    func fromBase64() -> String? {
-        guard let data = Data(base64Encoded: self) else {
-            return nil
-        }
-        
-        return String(data: data, encoding: .utf8)
-    }
-    
-    func toBase64() -> String {
-        return Data(self.utf8).base64EncodedString()
-    }
-}
 
-class ViewController: UIViewController, WKNavigationDelegate, DocumentOperations {
+class ViewController: UIViewController, WKNavigationDelegate {
     
     private var webView: WKWebView!
     private var pdfFile: String?
     
     // MARK: - Private methods
 
-    private func prepareHTML() -> String? {
+    func createPDF(formatter: UIViewPrintFormatter, filename: String) -> String {
+        // From: https://gist.github.com/nyg/b8cd742250826cb1471f
         
-        // Create Your Image tags here
-        let tags = imageTags(filenames: ["report_logo.png"])
-        var html: String?
+        // 2. Assign print formatter to UIPrintPageRenderer
+        let render = UIPrintPageRenderer()
+        render.addPrintFormatter(formatter, startingAtPageAt: 0)
         
-        // html
-        if let url = Bundle.main.resourceURL {
+        // 3. Assign paperRect and printableRect
+        let page = CGRect(x: 0, y: 0, width: 595.2, height: 841.8) // A4, 72 dpi
+        let printable = page.insetBy(dx: 0, dy: 0)
+        
+        render.setValue(NSValue(cgRect: page), forKey: "paperRect")
+        render.setValue(NSValue(cgRect: printable), forKey: "printableRect")
+        
+        // 4. Create PDF context and draw
+        let pdfData = NSMutableData()
+        UIGraphicsBeginPDFContextToData(pdfData, CGRect.zero, nil)
+        
+        for i in 1...render.numberOfPages {
             
-            // Images are stored in the app bundle
-            html = generateHTMLString(imageTags: tags, baseURL: url.absoluteString)
+            UIGraphicsBeginPDFPage();
+            let bounds = UIGraphicsGetPDFContextBounds()
+            render.drawPage(at: i - 1, in: bounds)
         }
         
-        return html
+        UIGraphicsEndPDFContext();
+        
+        // 5. Save PDF file
+        let path = "\(NSTemporaryDirectory())\(filename).pdf"
+        pdfData.write(toFile: path, atomically: true)
+        print("open \(path)")
+        
+        return path
     }
     
     // MARK: - WKNavigationDelegate
@@ -52,11 +57,9 @@ class ViewController: UIViewController, WKNavigationDelegate, DocumentOperations
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         NSLog("didFinishNavigation")
 
-        if let content = prepareHTML() {
-            let path = createPDF(html: content, formmatter: webView.viewPrintFormatter(), filename: "MyPDFDocument")
-            print("PDF location: \(path)")
-            self.pdfFile = path
-        }
+        let path = self.createPDF(formatter: webView.viewPrintFormatter(), filename: "MyPDFDocument")
+        print("PDF location: \(path)")
+        self.pdfFile = path
     }
     
     // MARK: - Navigation

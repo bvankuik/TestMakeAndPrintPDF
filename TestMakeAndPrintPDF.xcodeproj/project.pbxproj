@@ -15,7 +15,6 @@
 		89DA60311E485E2900325B8A /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = 89DA60301E485E2900325B8A /* test.html */; };
 		89DA60331E48663A00325B8A /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89DA60321E48663A00325B8A /* PreviewViewController.swift */; };
 		89DA60351E486C1000325B8A /* report_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 89DA60341E486C1000325B8A /* report_logo.png */; };
-		89F2F7C91E488A76004B01F9 /* DocumentOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F2F7C81E488A76004B01F9 /* DocumentOperations.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,7 +28,6 @@
 		89DA60301E485E2900325B8A /* test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
 		89DA60321E48663A00325B8A /* PreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviewViewController.swift; path = ../PreviewViewController.swift; sourceTree = "<group>"; };
 		89DA60341E486C1000325B8A /* report_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = report_logo.png; sourceTree = "<group>"; };
-		89F2F7C81E488A76004B01F9 /* DocumentOperations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentOperations.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +61,6 @@
 			isa = PBXGroup;
 			children = (
 				89DA601E1E4858AD00325B8A /* AppDelegate.swift */,
-				89F2F7C81E488A76004B01F9 /* DocumentOperations.swift */,
 				89DA60201E4858AD00325B8A /* ViewController.swift */,
 				89DA60321E48663A00325B8A /* PreviewViewController.swift */,
 				89DA60221E4858AD00325B8A /* Main.storyboard */,
@@ -153,7 +150,6 @@
 			files = (
 				89DA60211E4858AD00325B8A /* ViewController.swift in Sources */,
 				89DA601F1E4858AD00325B8A /* AppDelegate.swift in Sources */,
-				89F2F7C91E488A76004B01F9 /* DocumentOperations.swift in Sources */,
 				89DA60331E48663A00325B8A /* PreviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
