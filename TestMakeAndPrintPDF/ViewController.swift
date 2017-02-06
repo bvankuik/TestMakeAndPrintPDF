@@ -16,19 +16,44 @@ class ViewController: UIViewController, WKNavigationDelegate {
     
     // MARK: - Private methods
     
-    // From: https://gist.github.com/nyg/b8cd742250826cb1471f
-    func saveToPDF() {
+    func loadHTML() -> String? {
         let path = Bundle.main.path(forResource: "test", ofType: "html")
         
-        let html: String!
+        var html = ""
         do {
             html = try String(contentsOfFile:path!, encoding: .utf8)
         } catch _ as NSError {
             NSLog("Error occurred loading path")
-            return
+            return nil
         }
         
+        let logo = self.convertImageAtPathToBase64String(fileName: "report_logo", type: "png")
+        html = html.replacingOccurrences(of: "report_logo.png", with: logo)
         
+        return html
+    }
+    
+    func convertImageAtPathToBase64String(fileName: String, type: String) -> String {
+        guard let path = Bundle.main.path(forResource: fileName, ofType: type) else {
+            NSLog("Path not found for \(fileName).\(type)")
+            return ""
+        }
+        
+        let imageFileURL = URL(fileURLWithPath: path)
+        if let imageData = NSData.init(contentsOf: imageFileURL) {
+            let strBase64:String = imageData.base64EncodedString(options: .init(rawValue: 0))
+            return "data:image/\(type);base64,\(strBase64)"
+        }
+        return ""
+    }
+    
+    // From: https://gist.github.com/nyg/b8cd742250826cb1471f
+    func saveToPDF() {
+        guard let html = self.loadHTML() else {
+            NSLog("Couldn't load HTML")
+            return
+        }
+    
         // 1. Create a print formatter
         let fmt = UIMarkupTextPrintFormatter(markupText: html)
 
