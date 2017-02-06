@@ -7,19 +7,40 @@
 //
 
 import UIKit
+import WebKit
 
 class ViewController: UIViewController {
+    
+    private var webView: WKWebView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        self.webView = WKWebView()
+        self.webView.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.webView)
+        
+        let viewDict: [String: AnyObject] = [
+            "webView": self.webView,
+            "top": self.topLayoutGuide
+        ]
+        let layouts = [
+            "H:|[webView]|",
+            "V:[top][webView]|"
+        ]
+        for layout in layouts {
+            let constraints = NSLayoutConstraint.constraints(withVisualFormat: layout, options: [], metrics: nil, views: viewDict)
+            self.view.addConstraints(constraints)
+        }
     }
-
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let path = Bundle.main.path(forResource: "test", ofType: "html")
+        let url = URL(fileURLWithPath: path!)
+        self.webView.load(URLRequest(url: url))
+    }
 
 }
 
