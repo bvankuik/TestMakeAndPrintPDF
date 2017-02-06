@@ -22,11 +22,35 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
-                    <navigationItem key="navigationItem" id="yLM-hq-tQW"/>
+                    <navigationItem key="navigationItem" id="yLM-hq-tQW">
+                        <barButtonItem key="rightBarButtonItem" title="Preview" id="BjY-Iw-HKh">
+                            <connections>
+                                <segue destination="gPX-cd-n3S" kind="show" id="eUh-sM-gfD"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1079.2" y="138.98050974512745"/>
+        </scene>
+        <!--Preview View Controller-->
+        <scene sceneID="uAs-KV-AF0">
+            <objects>
+                <viewController id="gPX-cd-n3S" customClass="PreviewViewController" customModule="TestMakeAndPrintPDF" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="KeI-jH-jst"/>
+                        <viewControllerLayoutGuide type="bottom" id="Lcb-fe-gBO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Xru-yN-xN4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cXy-XD-yth" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1994" y="139"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7T7-H0-5Jt">

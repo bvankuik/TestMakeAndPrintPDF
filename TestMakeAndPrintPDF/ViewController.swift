@@ -20,6 +20,8 @@ class ViewController: UIViewController {
         self.webView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.webView)
         
+        //
+        
         let viewDict: [String: AnyObject] = [
             "webView": self.webView,
             "top": self.topLayoutGuide
@@ -36,7 +38,9 @@ class ViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
+        // If this gives a sandbox error, check:
+        // http://stackoverflow.com/a/25973953/1085556
         let path = Bundle.main.path(forResource: "test", ofType: "html")
         let url = URL(fileURLWithPath: path!)
         self.webView.load(URLRequest(url: url))
