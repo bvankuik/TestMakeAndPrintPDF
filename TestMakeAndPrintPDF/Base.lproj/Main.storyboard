@@ -25,7 +25,7 @@
                     <navigationItem key="navigationItem" id="yLM-hq-tQW">
                         <barButtonItem key="rightBarButtonItem" title="Preview" id="BjY-Iw-HKh">
                             <connections>
-                                <segue destination="gPX-cd-n3S" kind="show" id="eUh-sM-gfD"/>
+                                <segue destination="gPX-cd-n3S" kind="show" identifier="PreviewViewController" id="eUh-sM-gfD"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

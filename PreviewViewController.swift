@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import WebKit
 
 class PreviewViewController: UIViewController {
 
     private var webView: WKWebView!
     private var printButton: UIBarButtonItem!
+    
+    var pdfFile: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,9 +45,12 @@ class PreviewViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let path = Bundle.main.path(forResource: "test", ofType: "html")
-        let url = URL(fileURLWithPath: path!)
-        self.webView.load(URLRequest(url: url))
+        if let path = self.pdfFile {
+            let url = URL(fileURLWithPath: path)
+            self.webView.load(URLRequest(url: url))
+        } else {
+            NSLog("Couldn't load PDF")
+        }
     }
 
     func print() {
@@ -52,20 +58,17 @@ class PreviewViewController: UIViewController {
         
         let printInfo = UIPrintInfo(dictionary:nil)
         printInfo.outputType = .general
-        printInfo.jobName = (self.webView.url?.absoluteString)! // (webView.URL?.absoluteString)!
+        printInfo.jobName = (self.webView.url?.absoluteString)!
         printInfo.duplex = .none
         printInfo.orientation = .portrait
         
-        //New stuff
         printController.printPageRenderer = nil
         printController.printingItems = nil
         printController.printingItem = webView.url!
-        //New stuff
         
         printController.printInfo = printInfo
         printController.showsNumberOfCopies = true
         
-        //        printController.presentFromBarButtonItem(printButton, animated: true, completionHandler: nil)
         printController.present(from: self.printButton, animated: true, completionHandler: nil)
     }
 
