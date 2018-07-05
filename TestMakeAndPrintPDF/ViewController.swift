@@ -11,9 +11,11 @@ import WebKit
 
 
 class ViewController: UIViewController, WKNavigationDelegate {
-    
-    private var webView: WKWebView!
+    private let webView = WKWebView()
+    private let spinner = UIActivityIndicatorView()
     private var pdfFile: String?
+    
+    @IBOutlet weak var previewButton: UIBarButtonItem!
     
     // MARK: - Private methods
 
@@ -42,7 +44,7 @@ class ViewController: UIViewController, WKNavigationDelegate {
             render.drawPage(at: i - 1, in: bounds)
         }
         
-        UIGraphicsEndPDFContext();
+        UIGraphicsEndPDFContext()
         
         // 5. Save PDF file
         let path = "\(NSTemporaryDirectory())\(filename).pdf"
@@ -57,15 +59,20 @@ class ViewController: UIViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         NSLog("didFinishNavigation")
 
-        let path = self.createPDF(formatter: webView.viewPrintFormatter(), filename: "MyPDFDocument")
-        print("PDF location: \(path)")
-        self.pdfFile = path
+        // Sometimes, this delegate is called before the image is loaded. Thus we give it a bit more time.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            let path = self.createPDF(formatter: webView.viewPrintFormatter(), filename: "MyPDFDocument")
+            print("PDF location: \(path)")
+            self.pdfFile = path
+            self.previewButton.isEnabled = true
+        }
     }
     
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "PreviewViewController" {
+            self.previewButton.isEnabled = false
             let previewViewController = segue.destination as! PreviewViewController
             previewViewController.pdfFile = self.pdfFile
         }
@@ -75,8 +82,9 @@ class ViewController: UIViewController, WKNavigationDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.previewButton.isEnabled = false
 
-        self.webView = WKWebView()
         self.webView.translatesAutoresizingMaskIntoConstraints = false
         self.webView.navigationDelegate = self
         self.view.addSubview(self.webView)
