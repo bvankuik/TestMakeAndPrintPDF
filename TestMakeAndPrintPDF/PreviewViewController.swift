@@ -53,7 +53,7 @@ class PreviewViewController: UIViewController {
         }
     }
 
-    func print() {
+    @objc func print() {
         let printController = UIPrintInteractionController.shared
         
         let printInfo = UIPrintInfo(dictionary:nil)
